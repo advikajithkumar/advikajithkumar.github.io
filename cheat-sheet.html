@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Maths Cheat Sheet | Year 11 Advanced & Extension 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Chosen Palette: Slate & Sky */
+        /* Application Structure Plan: A two-level navigation system is used. The top header switches between the "Advanced" and "Extension 1" courses. This action dynamically updates a persistent sidebar, which contains links to the specific topics within that course (e.g., Functions, Calculus). Clicking a topic in the sidebar instantly displays the relevant content in the main area. This structure was chosen to provide rapid, non-linear access to information, which is ideal for a student needing to quickly look up a specific formula or concept, far superior to scrolling a long document. */
+        /* Visualization & Content Choices: The source material is purely informational (formulas, definitions). Therefore, no data charts (Chart.js) are needed. The primary goal is enhancing clarity and navigation. Key information is organized into cards and tables using HTML/Tailwind. Multi-step processes (like the R-alpha method) are converted into interactive click-to-reveal steps using vanilla JS. This breaks down complexity and encourages active engagement. All visuals are achieved with HTML/CSS. */
+        /* CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. */
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .sidebar-nav {
+            display: none;
+        }
+        .sidebar-nav.active {
+            display: block;
+        }
+        .nav-button.active {
+            background-color: #0284c7; /* sky-600 */
+            color: white;
+        }
+        .sidebar-link.active {
+            background-color: #f1f5f9; /* slate-100 */
+            font-weight: 600;
+            color: #0284c7; /* sky-600 */
+        }
+        .step-content {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800">
+
+    <div id="app" class="flex flex-col md:flex-row min-h-screen">
+        
+        <!-- Header & Sidebar -->
+        <aside class="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex-shrink-0">
+            <div class="p-4 border-b border-slate-200">
+                <h1 class="text-xl font-bold text-slate-900">Year 11 Maths</h1>
+                <p class="text-sm text-slate-500">Advanced & Extension 1</p>
+            </div>
+
+            <!-- Main Course Navigation -->
+            <div class="p-2 grid grid-cols-2 gap-2 md:block md:p-4">
+                <button id="nav-advanced" class="nav-button w-full text-left text-sm font-semibold p-3 rounded-lg transition-colors duration-200 hover:bg-sky-500 hover:text-white">
+                    Mathematics Advanced
+                </button>
+                <button id="nav-extension" class="nav-button w-full text-left text-sm font-semibold p-3 rounded-lg transition-colors duration-200 hover:bg-sky-500 hover:text-white">
+                    Mathematics Extension 1
+                </button>
+            </div>
+
+            <!-- Advanced Topics Sidebar -->
+            <nav id="sidebar-advanced" class="sidebar-nav p-4">
+                <h3 class="px-3 pb-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Advanced Topics</h3>
+                <a href="#ma-f1" class="sidebar-link block p-3 rounded-lg text-sm transition-colors duration-200 hover:bg-slate-100">Functions</a>
+                <a href="#ma-t1" class="sidebar-link block p-3 rounded-lg text-sm transition-colors duration-200 hover:bg-slate-100">Trigonometric Functions</a>
+                <a href="#ma-c1" class="sidebar-link block p-3 rounded-lg text-sm transition-colors duration-200 hover:bg-slate-100">Calculus</a>
+                <a href="#ma-s1" class="sidebar-link block p-3 rounded-lg text-sm transition-colors duration-200 hover:bg-slate-100">Statistical Analysis</a>
+            </nav>
+
+            <!-- Extension 1 Topics Sidebar -->
+            <nav id="sidebar-extension" class="sidebar-nav p-4">
+                <h3 class="px-3 pb-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">Extension 1 Topics</h3>
+                <a href="#me-p1" class="sidebar-link block p-3 rounded-lg text-sm transition-colors duration-200 hover:bg-slate-100">Polynomials</a>
+                <a href="#me-t1" class="sidebar-link block p-3 rounded-lg text-sm transition-colors duration-200 hover:bg-slate-100">Further Trig Identities</a>
+                <a href="#me-c2" class="sidebar-link block p-3 rounded-lg text-sm transition-colors duration-200 hover:bg-slate-100">Combinatorics</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 p-4 sm:p-6 md:p-8">
+            
+            <!-- Welcome / Default Section -->
+            <section id="welcome" class="content-section active">
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">Interactive Mathematics Cheat Sheet</h2>
+                    <p class="text-slate-600 mb-6">Welcome! This is an interactive tool designed to help you master the Year 11 Mathematics Advanced and Extension 1 courses. Select a course and topic from the sidebar to begin.</p>
+                    <div class="bg-sky-50 border border-sky-200 p-4 rounded-lg">
+                        <p class="text-sky-800"><strong class="font-semibold">How to use this tool:</strong> Navigate using the sidebar. Complex concepts have interactive steps – click them to reveal more information. Use this to test your knowledge and break down difficult problems.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MA-F1: Functions -->
+            <section id="ma-f1" class="content-section space-y-8">
+                <h2 class="text-3xl font-bold text-slate-900 border-b pb-2">MA-F1: Functions</h2>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">Core Concepts</h3>
+                    <p class="mb-4">This section covers the fundamental building blocks of functions, including their definition, domain, range, and key graphical properties. Understanding these concepts is essential for all other topics.</p>
+                    <ul class="space-y-4">
+                        <li><strong>Function:</strong> A rule mapping each input (x) to exactly one output (f(x)). Use the **vertical line test** to check if a graph is a function.</li>
+                        <li><strong>Domain:</strong> The set of all possible x-values. Watch for denominators (can't be zero) and square roots (must be non-negative).</li>
+                        <li><strong>Range:</strong> The set of all possible y-values.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">Types of Functions & Key Features</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-slate-100">
+                                <tr>
+                                    <th class="p-3">Function Type</th>
+                                    <th class="p-3">Equation</th>
+                                    <th class="p-3">Key Features</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b">
+                                    <td class="p-3 font-semibold">Quadratic</td>
+                                    <td class="p-3">y = ax² + bx + c</td>
+                                    <td class="p-3">Parabola. Vertex at x = -b/2a. Discriminant Δ = b² - 4ac determines roots.</td>
+                                </tr>
+                                <tr class="border-b">
+                                    <td class="p-3 font-semibold">Hyperbola</td>
+                                    <td class="p-3">y = k/(x-h) + v</td>
+                                    <td class="p-3">Asymptotes: Vertical at x=h, Horizontal at y=v.</td>
+                                </tr>
+                                 <tr class="border-b">
+                                    <td class="p-3 font-semibold">Circle</td>
+                                    <td class="p-3">(x-h)² + (y-k)² = r²</td>
+                                    <td class="p-3">Centre (h, k), Radius r.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-semibold">Exponential</td>
+                                    <td class="p-3">y = aˣ, a>1</td>
+                                    <td class="p-3">Passes through (0, 1). Horizontal asymptote at y=0.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">Inverse Functions</h3>
+                    <p class="mb-4">An inverse function, f⁻¹(x), reverses the action of the original function. A function must be one-to-one to have an inverse.</p>
+                    <div class="space-y-2">
+                        <button class="step-button w-full text-left p-3 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold">Step 1: How to find the inverse</button>
+                        <div class="step-content pl-4 pt-2 pb-2 border-l-2 border-sky-500">
+                            <p>Start with y = f(x), swap the positions of x and y, then make y the subject of the new equation.</p>
+                        </div>
+                        <button class="step-button w-full text-left p-3 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold">Step 2: Graphical Property</button>
+                        <div class="step-content pl-4 pt-2 pb-2 border-l-2 border-sky-500">
+                            <p>The graph of y=f⁻¹(x) is the reflection of y=f(x) in the line y=x.</p>
+                        </div>
+                         <button class="step-button w-full text-left p-3 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold">Step 3: Domain and Range</button>
+                        <div class="step-content pl-4 pt-2 pb-2 border-l-2 border-sky-500">
+                            <p>The domain of f(x) becomes the range of f⁻¹(x), and the range of f(x) becomes the domain of f⁻¹(x).</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MA-T1: Trigonometric Functions -->
+            <section id="ma-t1" class="content-section space-y-8">
+                <h2 class="text-3xl font-bold text-slate-900 border-b pb-2">MA-T1: Trigonometric Functions</h2>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">Radian Measure & Geometry</h3>
+                    <p class="mb-4">This section covers the essential rules for working with angles in radians and solving problems involving triangles and sectors.</p>
+                    <ul class="space-y-3 list-disc list-inside">
+                        <li><strong>Conversion:</strong> 180° = π radians</li>
+                        <li><strong>Arc Length:</strong> l = rθ (for θ in radians)</li>
+                        <li><strong>Sector Area:</strong> A = ½r²θ (for θ in radians)</li>
+                        <li><strong>Area of a Triangle:</strong> Area = ½ab·sin(C)</li>
+                        <li><strong>Sine Rule:</strong> a/sin(A) = b/sin(B) = c/sin(C) (Use when you have a side-angle pair).</li>
+                        <li><strong>Cosine Rule (Side):</strong> c² = a² + b² - 2ab·cos(C)</li>
+                        <li><strong>Cosine Rule (Angle):</strong> cos(C) = (a² + b² - c²)/(2ab)</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">Trigonometric Identities</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold">Reciprocal & Quotient</h4>
+                            <ul class="mt-2 space-y-2 list-disc list-inside">
+                                <li>csc(θ) = 1/sin(θ)</li>
+                                <li>sec(θ) = 1/cos(θ)</li>
+                                <li>cot(θ) = 1/tan(θ)</li>
+                                <li>tan(θ) = sin(θ)/cos(θ)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Pythagorean Identities</h4>
+                            <ul class="mt-2 space-y-2 list-disc list-inside">
+                                <li>sin²(θ) + cos²(θ) = 1</li>
+                                <li>1 + tan²(θ) = sec²(θ)</li>
+                                <li>1 + cot²(θ) = csc²(θ)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">Graphs of Trigonometric Functions</h3>
+                    <p class="mb-4">For functions in the form y = a·sin(b(x-c)) + d:</p>
+                     <ul class="space-y-2 list-disc list-inside">
+                        <li><strong>Amplitude:</strong> |a| (distance from centreline to max/min).</li>
+                        <li><strong>Period:</strong> 2π/b for sin and cos. π/b for tan.</li>
+                        <li><strong>Phase Shift:</strong> c (horizontal translation).</li>
+                        <li><strong>Vertical Shift:</strong> d (the new centreline is y=d).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- MA-C1: Calculus -->
+            <section id="ma-c1" class="content-section space-y-8">
+                <h2 class="text-3xl font-bold text-slate-900 border-b pb-2">MA-C1: Calculus (Differentiation)</h2>
+                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">Differentiation Rules</h3>
+                    <p class="mb-4">Calculus is the study of continuous change. Differentiation allows us to find the rate of change, or the gradient of a function's tangent. Master these rules to solve most differentiation problems.</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="p-4 bg-slate-50 rounded-lg"><strong>Product Rule:</strong> dy/dx = u(dv/dx) + v(du/dx)</div>
+                        <div class="p-4 bg-slate-50 rounded-lg"><strong>Quotient Rule:</strong> dy/dx = [v(du/dx) - u(dv/dx)] / v²</div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">Applications: Finding Stationary Points</h3>
+                    <p>Stationary points occur when f'(x) = 0. The second derivative, f''(x), helps determine their nature.</p>
+                     <ul class="space-y-2 list-disc list-inside">
+                        <li>If f''(x) > 0, the point is a **local minimum**.</li>
+                        <li>If f''(x) < 0, the point is a **local maximum**.</li>
+                        <li>If f''(x) = 0, the test is inconclusive; use the first derivative test (sign change of f'(x)).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- MA-S1: Statistical Analysis -->
+            <section id="ma-s1" class="content-section space-y-8">
+                <h2 class="text-3xl font-bold text-slate-900 border-b pb-2">MA-S1: Statistical Analysis</h2>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">Probability Rules</h3>
+                    <p class="mb-4">This section covers key probability formulas for calculating the likelihood of events.</p>
+                    <ul class="space-y-2 list-disc list-inside">
+                        <li>Addition Rule: P(A ∪ B) = P(A) + P(B) - P(A ∩ B)</li>
+                        <li>Conditional Probability: P(A|B) = P(A ∩ B) / P(B)</li>
+                        <li>Independent Events Test: Events are independent if P(A ∩ B) = P(A) × P(B)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ME-P1: Polynomials -->
+            <section id="me-p1" class="content-section space-y-8">
+                <h2 class="text-3xl font-bold text-slate-900 border-b pb-2">ME-P1: Polynomials</h2>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">Sum and Product of Roots</h3>
+                    <p class="mb-4">For a cubic polynomial ax³+bx²+cx+d=0 with roots α, β, γ:</p>
+                     <ul class="space-y-2 list-disc list-inside">
+                        <li>∑α = α+β+γ = -b/a</li>
+                        <li>∑αβ = αβ+αγ+βγ = c/a</li>
+                        <li>αβγ = -d/a</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ME-T1: Further Trig Identities -->
+            <section id="me-t1" class="content-section space-y-8">
+                <h2 class="text-3xl font-bold text-slate-900 border-b pb-2">ME-T1: Further Trigonometric Identities</h2>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">Sum, Difference & Double Angle Formulae</h3>
+                     <ul class="space-y-3 list-disc list-inside">
+                        <li>sin(A ± B) = sin(A)cos(B) ± cos(A)sin(B)</li>
+                        <li>cos(A ± B) = cos(A)cos(B) ∓ sin(A)sin(B)</li>
+                        <li>tan(A ± B) = (tan(A) ± tan(B)) / (1 ∓ tan(A)tan(B))</li>
+                        <li>sin(2A) = 2sin(A)cos(A)</li>
+                        <li>cos(2A) = cos²(A) - sin²(A) = 2cos²(A) - 1 = 1 - 2sin²(A)</li>
+                        <li>tan(2A) = 2tan(A) / (1 - tan²(A))</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">Auxiliary Angle (R-alpha) Method</h3>
+                    <p class="mb-4">This method converts expressions of the form a·sin(θ) + b·cos(θ) into a single trigonometric function, making it easier to solve equations or find maximum/minumum values.</p>
+                     <div class="space-y-2">
+                        <button class="step-button w-full text-left p-3 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold">Step 1: Set up the identity</button>
+                        <div class="step-content pl-4 pt-2 pb-2 border-l-2 border-sky-500">
+                            <p>Let a·sin(θ) + b·cos(θ) = R·sin(θ+α). Expand the right side to get R(sin(θ)cos(α) + cos(θ)sin(α)).</p>
+                        </div>
+                        <button class="step-button w-full text-left p-3 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold">Step 2: Equate coefficients</button>
+                        <div class="step-content pl-4 pt-2 pb-2 border-l-2 border-sky-500">
+                            <p>By comparing terms, we get a = R·cos(α) and b = R·sin(α).</p>
+                        </div>
+                         <button class="step-button w-full text-left p-3 bg-slate-100 hover:bg-slate-200 rounded-lg font-semibold">Step 3: Find R and Alpha</button>
+                        <div class="step-content pl-4 pt-2 pb-2 border-l-2 border-sky-500">
+                            <p>Square and add the equations from Step 2 to find R = √(a²+b²). Divide them to find tan(α) = b/a.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">t-Formulae & Product-to-Sum</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold">t-Formulae (Let t = tan(A/2))</h4>
+                            <ul class="mt-2 space-y-2 list-disc list-inside">
+                                <li>sin(A) = 2t/(1+t²)</li>
+                                <li>cos(A) = (1-t²)/(1+t²)</li>
+                                <li>tan(A) = 2t/(1-t²)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">Product-to-Sum</h4>
+                            <ul class="mt-2 space-y-2 list-disc list-inside">
+                                <li>2sin(A)cos(B) = sin(A+B) + sin(A-B)</li>
+                                <li>2cos(A)cos(B) = cos(A+B) + cos(A-B)</li>
+                                <li>-2sin(A)sin(B) = cos(A+B) - cos(A-B)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ME-C2: Combinatorics -->
+            <section id="me-c2" class="content-section space-y-8">
+                <h2 class="text-3xl font-bold text-slate-900 border-b pb-2">ME-C2: Combinatorics</h2>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-bold mb-4">Permutations vs. Combinations</h3>
+                    <p class="mb-4">Combinatorics is the study of counting. The fundamental difference between permutations and combinations is whether order matters.</p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="p-4 border-2 border-sky-500 rounded-lg bg-sky-50">
+                            <h4 class="font-bold text-sky-800">Permutations (Order Matters)</h4>
+                            <p class="text-sky-700 mt-1">Used for arrangements, rankings, or assigning specific roles. Formula: ⁿPᵣ = n!/(n-r)!</p>
+                        </div>
+                        <div class="p-4 border-2 border-slate-300 rounded-lg bg-slate-50">
+                             <h4 class="font-bold text-slate-800">Combinations (Order Doesn't Matter)</h4>
+                            <p class="text-slate-700 mt-1">Used for selections, choosing groups, or picking items where the arrangement doesn't count. Formula: ⁿCᵣ = n!/[r!(n-r)!]</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navAdvanced = document.getElementById('nav-advanced');
+            const navExtension = document.getElementById('nav-extension');
+            const sidebarAdvanced = document.getElementById('sidebar-advanced');
+            const sidebarExtension = document.getElementById('sidebar-extension');
+            const contentSections = document.querySelectorAll('.content-section');
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            const mainNavButtons = document.querySelectorAll('.nav-button');
+            const stepButtons = document.querySelectorAll('.step-button');
+
+            function setActiveSection(hash) {
+                contentSections.forEach(section => {
+                    if ('#' + section.id === hash) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+
+                sidebarLinks.forEach(link => {
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+
+            function switchCourse(course) {
+                if (course === 'advanced') {
+                    navAdvanced.classList.add('active');
+                    navExtension.classList.remove('active');
+                    sidebarAdvanced.classList.add('active');
+                    sidebarExtension.classList.remove('active');
+                    // Activate the first topic of the advanced course
+                    const firstTopicHash = sidebarAdvanced.querySelector('a').getAttribute('href');
+                    setActiveSection(firstTopicHash);
+                } else { // extension
+                    navExtension.classList.add('active');
+                    navAdvanced.classList.remove('active');
+                    sidebarExtension.classList.add('active');
+                    sidebarAdvanced.classList.remove('active');
+                    // Activate the first topic of the extension course
+                    const firstTopicHash = sidebarExtension.querySelector('a').getAttribute('href');
+                    setActiveSection(firstTopicHash);
+                }
+            }
+
+            navAdvanced.addEventListener('click', () => switchCourse('advanced'));
+            navExtension.addEventListener('click', () => switchCourse('extension'));
+
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetHash = this.getAttribute('href');
+                    setActiveSection(targetHash);
+                });
+            });
+
+            stepButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    if (content && content.classList.contains('step-content')) {
+                        content.style.display = content.style.display === 'block' ? 'none' : 'block';
+                    }
+                });
+            });
+
+            // Initial state
+            switchCourse('advanced'); // Start with Advanced course active
+        });
+    </script>
+</body>
+</html>
