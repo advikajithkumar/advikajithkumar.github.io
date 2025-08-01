@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trigonometry Formulas Cheat Sheet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMQNogPDUEaQfk5V5lDmg4GQx2dGkXdcVBHnD1M4CgKGgoXMw" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .font-serif {
+            font-family: 'Lora', serif;
+        }
+        .katex-display {
+            margin: 0.5em 0;
+        }
+        .katex {
+            font-size: 1.1em;
+            text-align: left;
+        }
+        h2 {
+            border-bottom: 2px solid #e2e8f0; /* slate-200 */
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Lora', serif;
+        }
+        .formula-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .formula-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border: 1px solid #e2e8f0; /* slate-200 */
+        }
+        .formula-card h3 {
+            font-family: 'Lora', serif;
+            font-weight: 600;
+            color: #1e293b; /* slate-800 */
+            margin-bottom: 1rem;
+        }
+        .formula-item {
+            color: #334155; /* slate-700 */
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+    <div class="w-full max-w-7xl mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="font-serif text-4xl md:text-5xl font-bold text-slate-900">Trigonometry Formula Cheat Sheet</h1>
+            <p class="text-slate-600 mt-2 text-lg">A comprehensive collection of trigonometric identities and formulas.</p>
+        </header>
+
+        <main class="space-y-12">
+            <!-- Fundamental Identities -->
+            <section>
+                <h2 class="text-3xl font-bold text-slate-800">Fundamental Identities</h2>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h3>Reciprocal Identities</h3>
+                        <div class="space-y-3">
+                            <div class="formula-item">$\sin(\theta) = \frac{1}{\csc(\theta)}$</div>
+                            <div class="formula-item">$\cos(\theta) = \frac{1}{\sec(\theta)}$</div>
+                            <div class="formula-item">$\tan(\theta) = \frac{1}{\cot(\theta)}$</div>
+                            <div class="formula-item">$\csc(\theta) = \frac{1}{\sin(\theta)}$</div>
+                            <div class="formula-item">$\sec(\theta) = \frac{1}{\cos(\theta)}$</div>
+                            <div class="formula-item">$\cot(\theta) = \frac{1}{\tan(\theta)}$</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <h3>Tangent and Cotangent Identities</h3>
+                        <div class="space-y-3">
+                            <div class="formula-item">$\tan(\theta) = \frac{\sin(\theta)}{\cos(\theta)}$</div>
+                            <div class="formula-item">$\cot(\theta) = \frac{\cos(\theta)}{\sin(\theta)}$</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <h3>Pythagorean Identities</h3>
+                        <div class="space-y-3">
+                            <div class="formula-item">$\sin^2(\theta) + \cos^2(\theta) = 1$</div>
+                            <div class="formula-item">$\tan^2(\theta) + 1 = \sec^2(\theta)$</div>
+                            <div class="formula-item">$1 + \cot^2(\theta) = \csc^2(\theta)$</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Angle Formulas -->
+            <section>
+                <h2 class="text-3xl font-bold text-slate-800">Angle Formulas</h2>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h3>Sum and Difference Formulas</h3>
+                        <div class="space-y-3">
+                            <div class="formula-item">$\sin(\alpha \pm \beta) = \sin(\alpha)\cos(\beta) \pm \cos(\alpha)\sin(\beta)$</div>
+                            <div class="formula-item">$\cos(\alpha \pm \beta) = \cos(\alpha)\cos(\beta) \mp \sin(\alpha)\sin(\beta)$</div>
+                            <div class="formula-item">$\tan(\alpha \pm \beta) = \frac{\tan(\alpha) \pm \tan(\beta)}{1 \mp \tan(\alpha)\tan(\beta)}$</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <h3>Double Angle Formulas</h3>
+                        <div class="space-y-3">
+                            <div class="formula-item">$\sin(2\theta) = 2\sin(\theta)\cos(\theta)$</div>
+                            <div class="formula-item">$\cos(2\theta) = \cos^2(\theta) - \sin^2(\theta)$</div>
+                            <div class="formula-item">= $2\cos^2(\theta) - 1$</div>
+                            <div class="formula-item">= $1 - 2\sin^2(\theta)$</div>
+                            <div class="formula-item">$\tan(2\theta) = \frac{2\tan(\theta)}{1 - \tan^2(\theta)}$</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <h3>Half Angle Formulas</h3>
+                        <div class="space-y-3">
+                            <div class="formula-item">$\sin(\frac{\theta}{2}) = \pm\sqrt{\frac{1 - \cos(\theta)}{2}}$</div>
+                            <div class="formula-item">$\cos(\frac{\theta}{2}) = \pm\sqrt{\frac{1 + \cos(\theta)}{2}}$</div>
+                            <div class="formula-item">$\tan(\frac{\theta}{2}) = \pm\sqrt{\frac{1 - \cos(\theta)}{1 + \cos(\theta)}}$</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Symmetry and Periodicity -->
+            <section>
+                <h2 class="text-3xl font-bold text-slate-800">Symmetry & Periodicity</h2>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h3>Even/Odd Formulas</h3>
+                        <div class="space-y-3">
+                            <div class="formula-item">$\sin(-\theta) = -\sin(\theta)$</div>
+                            <div class="formula-item">$\cos(-\theta) = \cos(\theta)$</div>
+                            <div class="formula-item">$\tan(-\theta) = -\tan(\theta)$</div>
+                            <div class="formula-item">$\csc(-\theta) = -\csc(\theta)$</div>
+                            <div class="formula-item">$\sec(-\theta) = \sec(\theta)$</div>
+                            <div class="formula-item">$\cot(-\theta) = -\cot(\theta)$</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <h3>Cofunction Formulas</h3>
+                        <div class="space-y-3">
+                            <div class="formula-item">$\sin(\frac{\pi}{2} - \theta) = \cos(\theta)$</div>
+                            <div class="formula-item">$\cos(\frac{\pi}{2} - \theta) = \sin(\theta)$</div>
+                            <div class="formula-item">$\tan(\frac{\pi}{2} - \theta) = \cot(\theta)$</div>
+                            <div class="formula-item">$\csc(\frac{\pi}{2} - \theta) = \sec(\theta)$</div>
+                            <div class="formula-item">$\sec(\frac{\pi}{2} - \theta) = \csc(\theta)$</div>
+                            <div class="formula-item">$\cot(\frac{\pi}{2} - \theta) = \tan(\theta)$</div>
+                        </div>
+                    </div>
+                     <div class="formula-card">
+                        <h3>Periodic Formulas (n is an integer)</h3>
+                        <div class="space-y-3">
+                            <div class="formula-item">$\sin(\theta + 2\pi n) = \sin(\theta)$</div>
+                            <div class="formula-item">$\cos(\theta + 2\pi n) = \cos(\theta)$</div>
+                            <div class="formula-item">$\tan(\theta + \pi n) = \tan(\theta)$</div>
+                             <div class="formula-item">$\csc(\theta + 2\pi n) = \csc(\theta)$</div>
+                            <div class="formula-item">$\sec(\theta + 2\pi n) = \sec(\theta)$</div>
+                            <div class="formula-item">$\cot(\theta + \pi n) = \cot(\theta)$</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Sum/Product Formulas -->
+            <section>
+                <h2 class="text-3xl font-bold text-slate-800">Sum-to-Product & Product-to-Sum</h2>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h3>Product-to-Sum Formulas</h3>
+                        <div class="space-y-3">
+                            <div class="formula-item">$\sin(\alpha)\sin(\beta) = \frac{1}{2}[\cos(\alpha-\beta) - \cos(\alpha+\beta)]$</div>
+                            <div class="formula-item">$\cos(\alpha)\cos(\beta) = \frac{1}{2}[\cos(\alpha-\beta) + \cos(\alpha+\beta)]$</div>
+                            <div class="formula-item">$\sin(\alpha)\cos(\beta) = \frac{1}{2}[\sin(\alpha+\beta) + \sin(\alpha-\beta)]$</div>
+                            <div class="formula-item">$\cos(\alpha)\sin(\beta) = \frac{1}{2}[\sin(\alpha+\beta) - \sin(\alpha-\beta)]$</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <h3>Sum-to-Product Formulas</h3>
+                        <div class="space-y-3">
+                            <div class="formula-item">$\sin(\alpha) + \sin(\beta) = 2\sin(\frac{\alpha+\beta}{2})\cos(\frac{\alpha-\beta}{2})$</div>
+                            <div class="formula-item">$\sin(\alpha) - \sin(\beta) = 2\cos(\frac{\alpha+\beta}{2})\sin(\frac{\alpha-\beta}{2})$</div>
+                            <div class="formula-item">$\cos(\alpha) + \cos(\beta) = 2\cos(\frac{\alpha+\beta}{2})\cos(\frac{\alpha-\beta}{2})$</div>
+                            <div class="formula-item">$\cos(\alpha) - \cos(\beta) = -2\sin(\frac{\alpha+\beta}{2})\sin(\frac{\alpha-\beta}{2})$</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Triangle Formulas -->
+            <section>
+                <h2 class="text-3xl font-bold text-slate-800">Laws for Triangles</h2>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <h3>Law of Sines</h3>
+                        <div class="formula-item">$\frac{a}{\sin(\alpha)} = \frac{b}{\sin(\beta)} = \frac{c}{\sin(\gamma)}$</div>
+                    </div>
+                    <div class="formula-card">
+                        <h3>Law of Cosines</h3>
+                        <div class="space-y-3">
+                            <div class="formula-item">$a^2 = b^2 + c^2 - 2bc\cos(\alpha)$</div>
+                            <div class="formula-item">$b^2 = a^2 + c^2 - 2ac\cos(\beta)$</div>
+                            <div class="formula-item">$c^2 = a^2 + b^2 - 2ab\cos(\gamma)$</div>
+                        </div>
+                    </div>
+                    <div class="formula-card">
+                        <h3>Law of Tangents</h3>
+                        <div class="formula-item">$\frac{a-b}{a+b} = \frac{\tan(\frac{1}{2}(\alpha-\beta))}{\tan(\frac{1}{2}(\alpha+\beta))}$</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false},
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true}
+                ],
+                throwOnError : false
+            });
+        });
+    </script>
+</body>
+</html>
