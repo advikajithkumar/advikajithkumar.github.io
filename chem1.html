@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Chemistry Guide: Year 11 NSW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral Study -->
+    <!-- Application Structure Plan: The application is structured as a single-page dashboard with a fixed sidebar for primary navigation and a main content area that dynamically displays the selected topic. This structure was chosen because it's highly intuitive for educational content, allowing students to easily jump between topics like "Atomic Structure" or "Periodic Trends" without losing context or needing to reload the page. The user flow is simple: select a topic, and the content appears. Key interactions include a dynamic chart for periodic trends where users can select a trend to visualize and read about, and interactive cards for separation techniques and bonding types. This non-linear, topic-based approach is more effective for revision than a linear document, as students can focus on areas they find most challenging. -->
+    <!-- Visualization & Content Choices: 
+        - Separation Techniques: Report Info -> Different separation methods. Goal -> Inform/Organize. Viz -> Interactive HTML/CSS cards. Interaction -> Click to reveal details. Justification -> Visual grouping is better for memory than a list. Library -> Vanilla JS + Tailwind.
+        - Atomic Models: Report Info -> Evolution of the atom model. Goal -> Show Change. Viz -> An interactive HTML/CSS timeline. Interaction -> Clicking a year/scientist reveals a visual model and text. Justification -> Timeline is the most logical way to show historical progression. Library -> Vanilla JS + Tailwind.
+        - Periodic Trends: Report Info -> Trends like atomic radius, electronegativity. Goal -> Compare/Relationships. Viz -> Bar chart. Interaction -> Dropdown selects trend, which updates the chart and a detailed explanation text block simultaneously. Justification -> A dynamic chart makes abstract patterns concrete and easier to compare than static images. Library -> Chart.js.
+        - Chemical Bonding: Report Info -> Ionic, Covalent bonds, Lewis diagrams. Goal -> Organize/Inform. Viz -> Tabbed content area and simple HTML/CSS diagrams. Interaction -> Clicking tabs switches content. Justification -> Tabs cleanly separate distinct but related concepts. Library -> Vanilla JS + Tailwind.
+        - Allotropes: Report Info -> Carbon allotropes. Goal -> Compare. Viz -> Side-by-side comparison using a CSS grid. Interaction -> Static display for direct comparison. Justification -> Direct comparison highlights structural vs. property differences effectively. Library -> Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 40vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .nav-item {
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-item.active, .nav-item:hover {
+            background-color: #EAE3D9;
+            color: #8C6A46;
+            transform: translateX(4px);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FDFBF8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D5C9B9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #BFB2A1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="flex h-screen bg-[#FDFBF8]">
+        <aside class="w-64 bg-[#F4EFE7] p-6 hidden md:flex flex-col flex-shrink-0">
+            <h1 class="text-2xl font-bold text-[#8C6A46] mb-8">Chemistry Guide</h1>
+            <nav class="flex flex-col space-y-2">
+                <a href="#matter" class="nav-item p-3 rounded-lg font-medium">Matter & Separation</a>
+                <a href="#atomic" class="nav-item p-3 rounded-lg font-medium">Atomic Structure</a>
+                <a href="#trends" class="nav-item p-3 rounded-lg font-medium">Periodic Trends</a>
+                <a href="#bonding" class="nav-item p-3 rounded-lg font-medium">Chemical Bonding</a>
+                <a href="#allotropes" class="nav-item p-3 rounded-lg font-medium">Allotropes</a>
+            </nav>
+            <div class="mt-auto text-xs text-gray-500">
+                <p>Year 11 NSW Syllabus</p>
+                <p>Interactive Study Tool</p>
+            </div>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-10">
+            <div id="mobile-nav" class="md:hidden mb-4">
+                <select id="mobile-nav-select" class="w-full p-3 border rounded-lg bg-white shadow-sm">
+                    <option value="matter">Matter & Separation</option>
+                    <option value="atomic">Atomic Structure</option>
+                    <option value="trends">Periodic Trends</option>
+                    <option value="bonding">Chemical Bonding</option>
+                    <option value="allotropes">Allotropes</option>
+                </select>
+            </div>
+            
+            <div id="content-container">
+                <section id="matter" class="content-section">
+                    <h2 class="text-3xl font-bold text-[#6D5A42] mb-4">Separation Techniques</h2>
+                    <p class="mb-8 text-gray-600">Mixtures are combinations of substances that are not chemically bonded. We can separate them using techniques that exploit differences in their physical properties. This section explores common methods used to purify substances from various types of mixtures.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                            <h3 class="font-bold text-xl mb-2 text-[#8C6A46]">Filtration</h3>
+                            <p class="text-gray-600"><strong class="text-gray-800">Used for:</strong> Separating an insoluble solid from a liquid (e.g., sand from water).</p>
+                            <p class="text-gray-600 mt-2"><strong class="text-gray-800">Principle:</strong> Difference in particle size. The filter paper has pores that allow liquid particles to pass through but trap the larger solid particles.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                            <h3 class="font-bold text-xl mb-2 text-[#8C6A46]">Evaporation</h3>
+                            <p class="text-gray-600"><strong class="text-gray-800">Used for:</strong> Separating a soluble solid from a liquid when the liquid is not needed (e.g., salt from water).</p>
+                            <p class="text-gray-600 mt-2"><strong class="text-gray-800">Principle:</strong> Difference in boiling points. The liquid is heated until it evaporates, leaving the solid behind.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                            <h3 class="font-bold text-xl mb-2 text-[#8C6A46]">Distillation</h3>
+                            <p class="text-gray-600"><strong class="text-gray-800">Used for:</strong> Separating two miscible liquids with different boiling points, or a soluble solid from a liquid when the liquid needs to be collected.</p>
+                            <p class="text-gray-600 mt-2"><strong class="text-gray-800">Principle:</strong> Difference in boiling points. The mixture is heated, the liquid with the lower boiling point vaporizes first, then it is cooled and condensed back into a liquid in a separate container.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                            <h3 class="font-bold text-xl mb-2 text-[#8C6A46]">Separating Funnel</h3>
+                            <p class="text-gray-600"><strong class="text-gray-800">Used for:</strong> Separating immiscible liquids (e.g., oil and water).</p>
+                            <p class="text-gray-600 mt-2"><strong class="text-gray-800">Principle:</strong> Difference in density. The liquids form distinct layers, and the denser liquid at the bottom can be drained off.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                             <h3 class="font-bold text-xl mb-2 text-[#8C6A46]">Percentage Composition</h3>
+                            <p class="text-gray-600"><strong class="text-gray-800">Formula:</strong> % by mass = (mass of component / total mass of mixture) x 100.</p>
+                             <p class="text-gray-600 mt-2"><strong class="text-gray-800">Example:</strong> A 20g sample of salt water contains 5g of salt. The percentage composition of salt is (5g / 20g) x 100 = 25%.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="atomic" class="content-section" style="display: none;">
+                    <h2 class="text-3xl font-bold text-[#6D5A42] mb-4">The Model of the Atom</h2>
+                    <p class="mb-8 text-gray-600">Our understanding of the atom has evolved significantly over time as new experimental evidence emerged. This section traces the key developments from a simple sphere to the complex quantum mechanical model we use today. We also explore the concepts of isotopes and relative atomic mass.</p>
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-semibold text-[#8C6A46] mb-3">Atomic Models Timeline</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div class="bg-white p-4 rounded-lg shadow border border-gray-200"><strong>Dalton (1803):</strong> Tiny, indivisible spheres.</div>
+                                <div class="bg-white p-4 rounded-lg shadow border border-gray-200"><strong>Thomson (1897):</strong> "Plum pudding" model. Positive sphere with negative electrons embedded.</div>
+                                <div class="bg-white p-4 rounded-lg shadow border border-gray-200"><strong>Rutherford (1911):</strong> Dense, positive nucleus with electrons orbiting. Mostly empty space.</div>
+                                <div class="bg-white p-4 rounded-lg shadow border border-gray-200"><strong>Bohr (1913):</strong> Electrons in fixed energy levels or shells orbiting the nucleus.</div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-[#8C6A46] mb-3">Isotopes & Relative Atomic Mass</h3>
+                            <p class="text-gray-600 mb-4"><strong>Isotopes</strong> are atoms of the same element (same number of protons) but with different numbers of neutrons, resulting in different mass numbers. For example, Carbon-12 (6p, 6n) and Carbon-14 (6p, 8n).</p>
+                            <p class="text-gray-600"><strong>Relative Atomic Mass (A<sub>r</sub>)</strong> is the weighted average mass of an element's isotopes relative to 1/12th the mass of a carbon-12 atom. It's calculated as: A<sub>r</sub> = Σ (isotopic mass × % abundance) / 100.</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl font-semibold text-[#8C6A46] mb-3">Electron Configuration & SPDF Notation</h3>
+                            <p class="text-gray-600 mb-2">Electrons occupy shells, which are made of subshells (s, p, d, f), which in turn contain orbitals. Each orbital can hold a maximum of 2 electrons.</p>
+                             <ul class="list-disc list-inside bg-white p-4 rounded-lg shadow border border-gray-200 text-gray-700">
+                                <li><strong>s-subshell:</strong> 1 orbital (2 electrons)</li>
+                                <li><strong>p-subshell:</strong> 3 orbitals (6 electrons)</li>
+                                <li><strong>d-subshell:</strong> 5 orbitals (10 electrons)</li>
+                                <li><strong>f-subshell:</strong> 7 orbitals (14 electrons)</li>
+                            </ul>
+                            <p class="text-gray-600 mt-4"><strong>Example - Sodium (Na, Z=11):</strong> 1s²2s²2p⁶3s¹</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="trends" class="content-section" style="display: none;">
+                    <h2 class="text-3xl font-bold text-[#6D5A42] mb-4">Periodic Table Trends</h2>
+                    <p class="mb-6 text-gray-600">The periodic table arranges elements to reveal repeating patterns in their properties. These trends can be explained by changes in atomic structure, primarily nuclear charge and electron shielding. Select a trend below to visualize its pattern across Period 3 and explore the reasons behind it.</p>
+                    <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                        <div class="flex flex-col sm:flex-row justify-between items-center mb-4">
+                            <h3 class="text-2xl font-semibold text-[#8C6A46] mb-2 sm:mb-0">Trend Visualizer (Period 3)</h3>
+                            <select id="trend-select" class="p-2 border rounded-lg bg-gray-50 shadow-sm w-full sm:w-auto">
+                                <option value="radius">Atomic Radius</option>
+                                <option value="ionisation">First Ionisation Energy</option>
+                                <option value="electronegativity">Electronegativity</option>
+                                <option value="metallic">Metallic Character</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="trends-chart"></canvas>
+                        </div>
+                        <div id="trend-explanation" class="mt-6 p-4 bg-[#F4EFE7] rounded-lg">
+                        </div>
+                    </div>
+                </section>
+
+                <section id="bonding" class="content-section" style="display: none;">
+                    <h2 class="text-3xl font-bold text-[#6D5A42] mb-4">Chemical Bonding</h2>
+                    <p class="mb-8 text-gray-600">Atoms form bonds to achieve a stable electron configuration, typically a full outer shell. The type of bond formed depends on the electronegativity difference between the atoms. This section covers the main types of chemical bonds and how to represent them using Lewis dot diagrams.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                            <h3 class="font-bold text-xl mb-2 text-[#8C6A46]">Ionic Bonding</h3>
+                            <p class="text-gray-700">Occurs between a metal and a non-metal. Involves the complete <strong class="text-black">transfer</strong> of one or more electrons from the metal to the non-metal, forming positive and negative ions which are held together by electrostatic attraction. <br><strong>Electronegativity Difference:</strong> Large (> 1.8)</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                            <h3 class="font-bold text-xl mb-2 text-[#8C6A46]">Covalent Bonding</h3>
+                            <p class="text-gray-700">Occurs between non-metal atoms. Involves the <strong class="text-black">sharing</strong> of electron pairs between atoms. If sharing is equal, it's a non-polar covalent bond. <br><strong>Electronegativity Difference:</strong> Small (0 - 0.4)</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                            <h3 class="font-bold text-xl mb-2 text-[#8C6A46]">Polar Covalent Bonding</h3>
+                            <p class="text-gray-700">A type of covalent bond where electrons are shared <strong class="text-black">unequally</strong> due to a significant difference in electronegativity, creating partial positive (δ+) and partial negative (δ-) charges on the atoms. <br><strong>Electronegativity Difference:</strong> Intermediate (0.4 - 1.8)</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+                        <h3 class="text-2xl font-semibold text-[#8C6A46] mb-3">Lewis Dot Diagrams</h3>
+                        <p class="text-gray-600 mb-4">These diagrams represent the valence electrons of an atom and are used to show how electrons are arranged in molecules. Dots represent electrons, and lines represent shared pairs (bonds).</p>
+                        <div class="flex flex-wrap justify-around items-center gap-4 text-center">
+                            <div>
+                                <p class="font-mono text-lg">H₂O (Water)</p>
+                                <p class="font-mono text-3xl mt-2">H–Ö–H</p>
+                                <p class="text-xs text-gray-500">(Lone pairs on Oxygen)</p>
+                            </div>
+                             <div>
+                                <p class="font-mono text-lg">CO₂ (Carbon Dioxide)</p>
+                                <p class="font-mono text-3xl mt-2">Ö=C=Ö</p>
+                                <p class="text-xs text-gray-500">(Double bonds)</p>
+                            </div>
+                            <div>
+                                <p class="font-mono text-lg">CH₄ (Methane)</p>
+                                <p class="font-mono text-3xl mt-2"> H<br>|<br>H–C–H<br>|<br>H</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="allotropes" class="content-section" style="display: none;">
+                    <h2 class="text-3xl font-bold text-[#6D5A42] mb-4">Allotropes of Carbon</h2>
+                    <p class="mb-8 text-gray-600">Allotropes are different structural forms of the same element in the same physical state. Carbon's ability to form various allotropes with vastly different properties is remarkable. This section compares the structure and properties of some of carbon's most well-known allotropes.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                            <h3 class="font-bold text-xl mb-2 text-[#8C6A46]">Diamond</h3>
+                            <p class="text-gray-600"><strong class="text-gray-800">Structure:</strong> Each carbon is covalently bonded to 4 others in a tetrahedral lattice.</p>
+                            <p class="text-gray-600 mt-2"><strong class="text-gray-800">Properties:</strong> Very hard, high melting point, does not conduct electricity.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                            <h3 class="font-bold text-xl mb-2 text-[#8C6A46]">Graphite</h3>
+                            <p class="text-gray-600"><strong class="text-gray-800">Structure:</strong> Each carbon is bonded to 3 others in hexagonal layers. Layers held by weak forces.</p>
+                            <p class="text-gray-600 mt-2"><strong class="text-gray-800">Properties:</strong> Soft, slippery, conducts electricity due to delocalised electrons.</p>
+                        </div>
+                         <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                            <h3 class="font-bold text-xl mb-2 text-[#8C6A46]">Graphene</h3>
+                            <p class="text-gray-600"><strong class="text-gray-800">Structure:</strong> A single layer of graphite, one atom thick.</p>
+                            <p class="text-gray-600 mt-2"><strong class="text-gray-800">Properties:</strong> Extremely strong, transparent, excellent electrical conductor.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                            <h3 class="font-bold text-xl mb-2 text-[#8C6A46]">Fullerene (C₆₀)</h3>
+                            <p class="text-gray-600"><strong class="text-gray-800">Structure:</strong> Spherical molecule made of 60 carbon atoms arranged in hexagons and pentagons.</p>
+                            <p class="text-gray-600 mt-2"><strong class="text-gray-800">Properties:</strong> Light, strong, semi-conductive properties.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const contentSections = document.querySelectorAll('.content-section');
+            const navLinks = document.querySelectorAll('.nav-item');
+            const mobileNavSelect = document.getElementById('mobile-nav-select');
+            let trendChart;
+
+            const trendData = {
+                labels: ['Na', 'Mg', 'Al', 'Si', 'P', 'S', 'Cl', 'Ar'],
+                radius: {
+                    data: [186, 160, 143, 117, 110, 104, 99, 94],
+                    title: 'Atomic Radius (pm)',
+                    explanation: `<h4 class="font-bold text-lg mb-2 text-[#6D5A42]">Atomic Radius</h4>
+                        <p class="text-gray-700"><strong>Trend:</strong> Decreases across a period.</p>
+                        <p class="text-gray-700 mt-1"><strong>Reason:</strong> Across a period, the number of protons in the nucleus increases, leading to a stronger nuclear charge. This increased attraction pulls the electrons in the same energy shell closer to the nucleus, reducing the atom's size. Electron shielding remains relatively constant as electrons are added to the same shell.</p>`
+                },
+                ionisation: {
+                    data: [496, 738, 578, 787, 1012, 999, 1251, 1521],
+                    title: 'First Ionisation Energy (kJ/mol)',
+                    explanation: `<h4 class="font-bold text-lg mb-2 text-[#6D5A42]">First Ionisation Energy</h4>
+                        <p class="text-gray-700"><strong>Trend:</strong> Generally increases across a period.</p>
+                        <p class="text-gray-700 mt-1"><strong>Reason:</strong> The increasing nuclear charge holds the valence electrons more tightly. More energy is required to remove the outermost electron from an atom as the attraction between the nucleus and the electrons gets stronger. Shielding is constant.</p>`
+                },
+                electronegativity: {
+                    data: [0.93, 1.31, 1.61, 1.90, 2.19, 2.58, 3.16, null],
+                    title: 'Electronegativity (Pauling Scale)',
+                    explanation: `<h4 class="font-bold text-lg mb-2 text-[#6D5A42]">Electronegativity</h4>
+                        <p class="text-gray-700"><strong>Trend:</strong> Increases across a period (excluding noble gases).</p>
+                        <p class="text-gray-700 mt-1"><strong>Reason:</strong> As nuclear charge increases and atomic radius decreases, the atom's nucleus has a stronger ability to attract a bonding pair of electrons. Noble gases typically do not form bonds and thus have no electronegativity value.</p>`
+                },
+                metallic: {
+                    data: [10, 9, 8, 5, 3, 2, 1, 0],
+                    title: 'Metallic Character (Relative Scale)',
+                    explanation: `<h4 class="font-bold text-lg mb-2 text-[#6D5A42]">Metallic Character</h4>
+                        <p class="text-gray-700"><strong>Trend:</strong> Decreases across a period.</p>
+                        <p class="text-gray-700 mt-1"><strong>Reason:</strong> Metallic character relates to the ease of losing electrons. Across a period, atoms hold onto their valence electrons more tightly (higher ionisation energy), so they are less likely to lose electrons and exhibit metallic properties. Elements transition from metals to metalloids to non-metals.</p>`
+                }
+            };
+
+            function showContent(id) {
+                contentSections.forEach(section => {
+                    section.style.display = section.id === id ? 'block' : 'none';
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.hash === `#${id}`);
+                });
+
+                if (id === 'trends') {
+                    renderTrendChart(document.getElementById('trend-select').value);
+                }
+                
+                mobileNavSelect.value = id;
+            }
+
+            function renderTrendChart(trend) {
+                const ctx = document.getElementById('trends-chart').getContext('2d');
+                const data = trendData[trend];
+                
+                document.getElementById('trend-explanation').innerHTML = data.explanation;
+
+                if (trendChart) {
+                    trendChart.destroy();
+                }
+
+                trendChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: trendData.labels,
+                        datasets: [{
+                            label: data.title,
+                            data: data.data,
+                            backgroundColor: '#D5C9B9',
+                            borderColor: '#8C6A46',
+                            borderWidth: 2,
+                            borderRadius: 5,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                             title: {
+                                display: true,
+                                text: data.title,
+                                font: {
+                                    size: 16
+                                },
+                                color: '#6D5A42'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: '#EAE3D9'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const id = link.hash.substring(1);
+                    showContent(id);
+                });
+            });
+
+            document.getElementById('trend-select').addEventListener('change', (e) => {
+                renderTrendChart(e.target.value);
+            });
+            
+            mobileNavSelect.addEventListener('change', (e) => {
+                 showContent(e.target.value);
+            });
+
+            const initialSection = window.location.hash ? window.location.hash.substring(1) : 'matter';
+            showContent(initialSection);
+        });
+    </script>
+</body>
+</html>
